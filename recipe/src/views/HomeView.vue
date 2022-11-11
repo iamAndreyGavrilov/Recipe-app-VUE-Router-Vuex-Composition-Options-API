@@ -31,10 +31,16 @@
 
           <div class="group">
             <label>Ingredients</label>
-            <div class="ingredient">
-              <input type="text" />
+            <div
+              class="ingredient"
+              v-for="i in newRecipe.ingredientRows"
+              :key="i"
+            >
+              <input type="text" v-model="newRecipe.ingredients[i - 1]" />
             </div>
-            <button type="button">Add Ingredient</button>
+            <button type="button" @click="addNewIngredient">
+              Add Ingredient
+            </button>
           </div>
 
           <div class="group">
@@ -55,6 +61,7 @@
 
 <script>
 import { ref } from "vue";
+// import { useStore } from "vuex";
 export default {
   name: "HomeView",
   components: {},
@@ -64,7 +71,7 @@ export default {
       description: "",
       ingredients: [],
       methods: [],
-      ingredientsRows: 1,
+      ingredientRows: 1,
       methodsRows: 1,
     });
 
@@ -74,10 +81,20 @@ export default {
       popupOpen.value = !popupOpen.value;
     };
 
+    const addNewIngredient = () => {
+      newRecipe.value.ingredientRows++;
+    };
+
+    const addNewStep = () => {
+      newRecipe.value.methodsRows++;
+    };
+
     return {
       newRecipe,
       togglePopup,
       popupOpen,
+      addNewIngredient,
+      addNewStep,
     };
   },
 };
