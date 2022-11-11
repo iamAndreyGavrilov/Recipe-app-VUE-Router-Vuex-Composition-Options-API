@@ -44,11 +44,11 @@
           </div>
 
           <div class="group">
-            <label>Methods</label>
-            <div class="method">
-              <textarea></textarea>
+            <label>Method</label>
+            <div class="method" v-for="i in newRecipe.methodRows" :key="i">
+              <textarea v-model="newRecipe.method[i - 1]"></textarea>
             </div>
-            <button type="button">Add step</button>
+            <button type="button" @click="addNewStep">Add step</button>
           </div>
 
           <button type="submit">Add recipe</button>
@@ -70,9 +70,9 @@ export default {
       title: "",
       description: "",
       ingredients: [],
-      methods: [],
+      method: [],
       ingredientRows: 1,
-      methodsRows: 1,
+      methodRows: 1,
     });
 
     const popupOpen = ref(false);
@@ -86,7 +86,7 @@ export default {
     };
 
     const addNewStep = () => {
-      newRecipe.value.methodsRows++;
+      newRecipe.value.methodRows++;
     };
 
     return {
