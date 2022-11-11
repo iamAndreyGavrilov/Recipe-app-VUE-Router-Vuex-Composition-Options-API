@@ -23,10 +23,13 @@
     <div class="add-recipe-popup" v-if="popupOpen">
       <div class="popup-content">
         <h2>Add new recipe</h2>
-        <form @submit.prevent>
-          <div class="group"><label>Title</label> <input type="text" /></div>
+        <form @submit.prevent="addNewRecipe">
           <div class="group">
-            <label>Description</label> <textarea></textarea>
+            <label>Title</label> <input type="text" v-model="newRecipe.title" />
+          </div>
+          <div class="group">
+            <label>Description</label>
+            <textarea v-model="newRecipe.description"></textarea>
           </div>
 
           <div class="group">
@@ -61,7 +64,7 @@
 
 <script>
 import { ref } from "vue";
-// import { useStore } from "vuex";
+import { useStore } from "vuex";
 export default {
   name: "HomeView",
   components: {},
@@ -76,6 +79,7 @@ export default {
     });
 
     const popupOpen = ref(false);
+    const store = useStore();
 
     const togglePopup = () => {
       popupOpen.value = !popupOpen.value;
@@ -89,12 +93,37 @@ export default {
       newRecipe.value.methodRows++;
     };
 
+    const addNewRecipe = () => {
+      newRecipe.value.slug = newRecipe.value.title
+        .toLowerCase()
+        .replace(/\s+/g, "-");
+
+      if (newRecipe.value.slug === "") {
+        alert("Please enter a title");
+        return;
+      }
+
+      store.commit("ADD_RECIPE", { ...newRecipe.value });
+
+      newRecipe.value = {
+        title: "",
+        description: "",
+        ingredients: [],
+        method: [],
+        ingredientRows: 1,
+        methodRows: 1,
+      };
+
+      togglePopup();
+    };
+
     return {
       newRecipe,
       togglePopup,
       popupOpen,
       addNewIngredient,
       addNewStep,
+      addNewRecipe,
     };
   },
 };
