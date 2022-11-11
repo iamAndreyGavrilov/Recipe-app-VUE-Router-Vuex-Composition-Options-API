@@ -1,0 +1,34 @@
+<template>
+  <div class="home">
+    <h1>My Recipes</h1>
+    <button @click="handler">Add new Recipe</button>
+
+    <!-- Recipes -->
+    <div class="recipes"></div>
+    <div class="add-recipe-popup">
+      <div class="popup-content">
+        <h2>Add new recipe</h2>
+        <form @submit.prevent>
+          <div class="group"><label>Title</label> <input type="text" /></div>
+          <div class="group">
+            <label>Description</label> <textarea></textarea>
+          </div>
+          <div class="group">
+            <label>Ingredients</label>
+            <div class="ingredient">
+              <input type="text" />
+              <button>Remove</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "HomeView",
+  components: {},
+};
+</script>
